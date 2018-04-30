@@ -1,0 +1,13 @@
+/* pages/dianpingyoujiang/dpyj.wxss */
+.right .star {
+  float: left;
+  width: 54rpx;
+  height: 54rpx;
+  text-align: center;
+  line-height: 54rpx;
+  padding: 48rpx 2rpx;
+}
+.star image{
+  width: 48rpx;
+  height: 48rpx;
+}

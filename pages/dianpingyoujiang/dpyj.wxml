@@ -1,0 +1,10 @@
+<!--pages/dianpingyoujiang/dpyj.wxml-->
+<text>分店A名称{{storeName}}</text>
+<text>*填写以下问卷，您将获得一次抽取优惠券的机会，获取的优惠券可抵扣用餐金额哦~</text>
+<view wx:key="id" wx:for="{{dpyjDatas}}" wx:for-item="itemP">
+  <view class="right">
+    <view bindtap="starTap" data-index="{{index}}" class="star" wx:for="{{userStars}}" wx:key="index">
+      <image src="{{item}}"></image>
+    </view>
+  </view>
+</view>

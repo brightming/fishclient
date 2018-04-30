@@ -1,0 +1,11 @@
+<view class="container">
+  <view class="userinfo">
+    <label>用户授权情况</label>
+    <view class="usermotto">
+        <text class="user-motto">{{authorDetails}}</text>
+    </view>
+    <button bindtap="openSetting"> 打开设置 </button>
+    <button bindtap="authorize"> 请求授权 </button>
+  </view>
+  
+</view>
