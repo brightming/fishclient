@@ -1,8 +1,10 @@
 <!--pages/fish/home.wxml-->
-
+<view>你好 {{nickname}}</view>
 <button bindtap=''> 点评有奖 </button>
 <button bindtap=''> 抽现金 </button>
 <button bindtap=''> 分享赚 </button>
 <button bindtap=''> 投诉 </button>
 <button bindtap=''> 买单 </button>
 <button bindtap=''> 我 </button>
+
+<button bindtap='checkauthorize'>授权情况查询</button>

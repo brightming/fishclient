@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/fish/home",
     "pages/index/index",
     "pages/dianpingyoujiang/dpyj",
     "pages/addCgi/addCgi"
