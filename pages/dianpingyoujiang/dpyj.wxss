@@ -11,3 +11,13 @@
   width: 48rpx;
   height: 48rpx;
 }
+.line {
+    width:100%;
+    height: 1px;
+    background:  #888;
+}
+.scoreBtn{
+  width:2rem;
+  height:2rem;
+  float:left;
+}

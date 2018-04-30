@@ -1,0 +1,7 @@
+缓存内容
+scanTime:上一次扫描桌面二维码的时间
+tableInfo:扫描得到的桌面的信息
+userInfo:用户的信息
+
+桌面二维码信息的设计，包含参数：
+storeId=xxx&tableId=yyy&createTime=zzz

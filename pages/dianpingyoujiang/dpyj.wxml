@@ -1,10 +1,27 @@
 <!--pages/dianpingyoujiang/dpyj.wxml-->
-<text>分店A名称{{storeName}}</text>
+<text>分店 {{storeName}}</text>
 <text>*填写以下问卷，您将获得一次抽取优惠券的机会，获取的优惠券可抵扣用餐金额哦~</text>
-<view wx:key="id" wx:for="{{dpyjDatas}}" wx:for-item="itemP">
-  <view class="right">
-    <view bindtap="starTap" data-index="{{index}}" class="star" wx:for="{{userStars}}" wx:key="index">
-      <image src="{{item}}"></image>
+<view class="line"></view>
+<view class="section">
+  <form bindsubmit="bindFormSubmit">
+    <view wx:key="id" wx:for="{{dpyjDatas}}" wx:for-item="itemP">
+      <view class="itemView">
+        {{itemP.seq}}. {{itemP.content}}
+        <block wx:if="{{itemP.display_type==1}}">
+          <view id="id-{{itemP.id}}" bindtap="starTap" data-index="{{index}}" class="star" wx:for="{{userStars}}" wx:key="index">
+            <image src="{{item}}" class="right"></image>
+          </view>
+        </block>
+        <block wx:else> 
+          <view id='view-{{itemP.id}}' bindtap='scoreTap' wx:for="{{numScores}}">
+              <button class='scoreBtn' id='btn-{{itemP.id}}-{{index}}'>{{item}}</button>
+          </view>
+         </block>
+
+      </view>
     </view>
-  </view>
+    <view class="line"></view>
+    <textarea placeholder="海门鱼仔希望您给给出更多的意见及建议" name="textarea" bindinput="inputExtraDesc" />
+    <button form-type="submit"> 提交问卷并领券 </button>
+  </form>
 </view>

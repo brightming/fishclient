@@ -17,26 +17,47 @@ const formatNumber = n => {
 
 // 显示繁忙提示
 var showBusy = text => wx.showToast({
-    title: text,
-    icon: 'loading',
-    duration: 10000
+  title: text,
+  icon: 'loading',
+  duration: 10000
 })
 
 // 显示成功提示
 var showSuccess = text => wx.showToast({
-    title: text,
-    icon: 'success'
+  title: text,
+  icon: 'success'
 })
 
 // 显示失败提示
 var showModel = (title, content) => {
-    wx.hideToast();
+  wx.hideToast();
 
-    wx.showModal({
-        title,
-        content: JSON.stringify(content),
-        showCancel: false
-    })
+  wx.showModal({
+    title,
+    content: JSON.stringify(content),
+    showCancel: false
+  })
 }
 
-module.exports = { formatTime, showBusy, showSuccess, showModel }
+var parseUriParam = str => {
+  var theRequest = new Object();
+  var strs = str.split("&");
+  for (var i = 0; i < strs.length; i++) {
+    theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+  }
+  return theRequest;
+}
+
+//检查桌面二维码的正确性
+var checkTableQrCodeParam=obj=>{
+    var storeId=obj['storeId'];
+    var tableId=obj['tableId'];
+
+    if(!storeId || !tableId){
+      return false;
+    }else{
+      return true;
+    }
+}
+
+module.exports = { formatTime, showBusy, showSuccess, showModel, parseUriParam, checkTableQrCodeParam }
