@@ -175,10 +175,35 @@ Page({
   bindFormSubmit: function (e) {
     console.log("bindFormSubmit dpyjScores=", this.data.dpyjScores);
     console.log("form detail = ", e.detail.value)
+    var tableInfo = wx.getStorageSync('tableInfo')
+    var userInfo = wx.getStorageSync('userInfo')
+    console.log("form submit userInfo=",userInfo)
+
+    var scores=[]  
+    var len = this.data.dpyjDatas.length
+    for(var i=0;i<len;i++){
+      var one={};
+      one.remarkTempId = this.data.dpyjDatas[i].id;
+      one.score = this.data.dpyjDatas[i].currentScore;
+      scores.push(one)
+    }
     var datas = {
       'extraDesc': this.data.extraDesc,
-      'scores': this.data.dpyjScores
+      'scores': scores,
+      'storeId':tableInfo.storeId,
+      'tableId':tableInfo.tableId,
+      'openId': userInfo.openId
     }
     console.log("form data:", datas)
+    wx.request({
+      url: config.service.addRemark,
+      data: datas,
+      header: {
+        'Content-Type': 'application/json'
+      },
+      success: function (res) {
+        console.log(res.data)
+      }
+    })  
   }
 })

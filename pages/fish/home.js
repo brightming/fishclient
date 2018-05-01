@@ -132,10 +132,106 @@ Page({
     });
   },
 
+  
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
+
+   var applyAuth=function(options){
+     console.log("in applyAuth......");
+     //先请求授权再说，不然在后面的opensetting中会看不到相关的权限。
+     wx.authorize({
+       scope: 'scope.userInfo',
+       fail: function () {
+         console.log("in authorize scope.userInfo fail!")
+         wx.redirectTo({
+           url: 'home'
+         })
+       },
+       success: function () {
+         console.log("in authorize scope.userInfo success!")
+         wx.authorize({
+           scope: 'scope.userLocation',
+           fail: function () {
+             console.log("in authorize scope.userLocation fail!")
+             wx.redirectTo({
+               url: 'home'
+             })
+           },
+           success: function () {
+             console.log("in authorize scope.userLocation success!")
+             wx.authorize({
+               scope: 'scope.camera',
+               success: function () {
+                 console.log("in authorize scope.camera success!")
+                 options.cb(options.obj);
+               },
+               fail: function () {
+                 console.log("in authorize scope.camera fail!")
+                 wx.redirectTo({
+                   url: 'home'
+                 })
+               }
+             })
+           }
+         })
+       }
+     })
+   }
+
+   var pagePointer=this;
+   var that=this;
+   var checkAuthAgain = function (pagePointer){
+     console.log("in checkAuthAgain.....");
+     var that = pagePointer;
+     this.authorizeUserLocation({
+       success: function () {
+         console.log("in authorizeUserLocation options success function")
+         that.authorizeUserInfo({
+           success: function () {
+             wx.getUserInfo({
+               withCredentials: true,
+               success: function (res) {
+                 console.log("authorizeUserInfo cb userinfo=", res.userInfo)
+                 var userInfo = res.userInfo
+                 var nickName = userInfo.nickName
+                 var avatarUrl = userInfo.avatarUrl
+                 var gender = userInfo.gender //性别 0：未知、1：男、2：女
+                 var province = userInfo.province
+                 var city = userInfo.city
+                 var country = userInfo.country
+                 that.setData({
+                   userInfo: userInfo,
+                   nickName: userInfo.nickName
+                 })
+
+                 wx.getLocation({
+                   type: 'wgs84',
+                   success: function (res) {
+                     var latitude = res.latitude
+                     var longitude = res.longitude
+                     var speed = res.speed
+                     var accuracy = res.accuracy
+
+
+                     console.log('user lat=', latitude, ',lng=', longitude, ',speed=', speed,
+                       ',accuracy=', accuracy)
+
+                     //缓存用户信息
+                     wx.setStorageSync('userPosition', res);
+                   }
+                 })
+                 //缓存用户信息
+                 wx.setStorageSync('userInfo', userInfo)
+               }
+             })
+           }
+         });
+       }
+     });
+   }
+
     //用户登录
     if (this.data.logged) return
     qcloud.login({
@@ -148,6 +244,8 @@ Page({
             logged: true
           })
           wx.setStorageSync('userInfo', result)
+
+          applyAuth({ cb: checkAuthAgain, obj: pagePointer });//申请授权
         } else {
           // 如果不是首次登录，不会返回用户信息，请求用户信息接口获取
           qcloud.request({
@@ -156,17 +254,22 @@ Page({
             success(result) {
               util.showSuccess('登录成功')
               console.log("not first time.", result.data.data.avatarUrl)
-              that.setData({
+              pagePointer.setData({
                 userInfo: result.data.data,
                 logged: true
               })
               wx.setStorageSync('userInfo', result.data.data)
               console.log("userInfo=", result.data.data)
+              applyAuth({ cb: checkAuthAgain, obj: pagePointer });//申请授权
+
             },
 
             fail(error) {
               util.showModel('请求失败', error)
               console.log('request fail', error)
+              wx.navigateBack({
+                delta: -1
+              })
             }
           })
         }
@@ -175,66 +278,13 @@ Page({
       fail(error) {
         util.showModel('登录失败', error)
         console.log('登录失败', error)
+        wx.navigateBack({
+          delta: -1
+        })
       }
     })
 
-
-    //先请求授权再说，不然在后面的opensetting中会看不到相关的权限。
-    wx.authorize({
-      scope: 'scope.userInfo',
-    })
-    wx.authorize({
-      scope: 'scope.userLocation',
-    })
-    wx.authorize({
-      scope: 'scope.camera',
-    })
-
-    var that = this;
-    this.authorizeUserLocation({
-      success: function () {
-        console.log("in authorizeUserLocation options success function")
-        that.authorizeUserInfo({
-          success: function () {
-            wx.getUserInfo({
-              success: function (res) {
-                var userInfo = res.userInfo
-                var nickName = userInfo.nickName
-                var avatarUrl = userInfo.avatarUrl
-                var gender = userInfo.gender //性别 0：未知、1：男、2：女
-                var province = userInfo.province
-                var city = userInfo.city
-                var country = userInfo.country
-                that.setData({
-                  userInfo: userInfo,
-                  nickname: userInfo.nickName
-                })
-
-                wx.getLocation({
-                  type: 'wgs84',
-                  success: function (res) {
-                    var latitude = res.latitude
-                    var longitude = res.longitude
-                    var speed = res.speed
-                    var accuracy = res.accuracy
-
-
-                    console.log('user lat=', latitude, ',lng=', longitude, ',speed=', speed,
-                      ',accuracy=', accuracy)
-
-                    //缓存用户信息
-                    wx.setStorageSync('userPosition', res);
-                  }
-                })
-                //缓存用户信息
-                wx.setStorageSync('userInfo', userInfo)
-
-              }
-            })
-          }
-        });
-      }
-    });
+    
   },
 
   /**
