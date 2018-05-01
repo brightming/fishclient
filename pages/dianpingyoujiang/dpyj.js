@@ -201,6 +201,7 @@ Page({
       header: {
         'Content-Type': 'application/json'
       },
+      method: "POST", 
       success: function (res) {
         console.log(res.data)
       }
