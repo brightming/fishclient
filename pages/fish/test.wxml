@@ -2,10 +2,26 @@
   <view class="userinfo">
     <label>用户授权情况</label>
     <view class="usermotto">
-        <text class="user-motto">{{authorDetails}}</text>
+      <text class="user-motto">{{authorDetails}}</text>
     </view>
     <button bindtap="openSetting"> 打开设置 </button>
     <button bindtap="authorize"> 请求授权 </button>
   </view>
-  
+
+  <button bindtap="createdata"> 产生列表数据 </button>
+  <form bindsubmit="bindFormSubmit">
+    <view wx:key="id" wx:for="{{dpyjDatas}}" wx:for-item="itemP">
+      <view class="itemView">
+        {{itemP.seq}}. {{itemP.content}}
+        <view id="{{itemP.id}}" bindtap="starTap" data-index="{{index}}" class="star" wx:for="{{dpyjStars[itemP.id]}}" wx:key="index">
+          <image src="{{item}}" class="right"></image>
+        </view>
+      </view>
+    </view>
+    <view style="clear:both"></view>
+    <view class="line"></view>
+    <textarea placeholder="海门鱼仔希望您给给出更多的意见及建议" name="textarea" bindinput="inputExtraDesc" />
+    <button class="btn" form-type="submit" hover-class="none">完成</button>
+  </form>
+
 </view>

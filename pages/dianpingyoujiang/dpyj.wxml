@@ -8,13 +8,13 @@
       <view class="itemView">
         {{itemP.seq}}. {{itemP.content}}
         <block wx:if="{{itemP.display_type==1}}">
-          <view id="id-{{itemP.id}}" bindtap="starTap" data-index="{{index}}" class="star" wx:for="{{userStars}}" wx:key="index">
+          <view id="view-{{itemP.id}}" bindtap="starTap" data-index="{{index}}" class="star" wx:for="{{itemP.iconList}}" wx:key="index">
             <image src="{{item}}" class="right"></image>
           </view>
         </block>
-        <block wx:else> 
-          <view id='view-{{itemP.id}}' bindtap='scoreTap' wx:for="{{numScores}}">
-              <button class='scoreBtn' id='btn-{{itemP.id}}-{{index}}'>{{item}}</button>
+        <block wx:else style="display:block"> 
+          <view id='view-{{itemP.id}}' bindtap='scoreTap' class="star" wx:for="{{itemP.scoreList}}">
+              <button id='btn-{{itemP.id}}-{{index}}'>{{item}}</button>
           </view>
          </block>
 
