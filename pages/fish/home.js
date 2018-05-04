@@ -185,7 +185,7 @@ Page({
    var checkAuthAgain = function (pagePointer){
      console.log("in checkAuthAgain.....");
      var that = pagePointer;
-     this.authorizeUserLocation({
+     pagePointer.authorizeUserLocation({
        success: function () {
          console.log("in authorizeUserLocation options success function")
          that.authorizeUserInfo({
@@ -201,7 +201,7 @@ Page({
                  var province = userInfo.province
                  var city = userInfo.city
                  var country = userInfo.country
-                 that.setData({
+                 pagePointer.setData({
                    userInfo: userInfo,
                    nickName: userInfo.nickName
                  })
@@ -213,8 +213,6 @@ Page({
                      var longitude = res.longitude
                      var speed = res.speed
                      var accuracy = res.accuracy
-
-
                      console.log('user lat=', latitude, ',lng=', longitude, ',speed=', speed,
                        ',accuracy=', accuracy)
 
@@ -222,8 +220,6 @@ Page({
                      wx.setStorageSync('userPosition', res);
                    }
                  })
-                 //缓存用户信息
-                 wx.setStorageSync('userInfo', userInfo)
                }
              })
            }
@@ -253,7 +249,7 @@ Page({
             login: true,
             success(result) {
               util.showSuccess('登录成功')
-              console.log("not first time.", result.data.data.avatarUrl)
+              console.log("not first time. userInfo===", result.data.data)
               pagePointer.setData({
                 userInfo: result.data.data,
                 logged: true

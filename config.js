@@ -19,7 +19,7 @@ var config = {
 
         //用户相关的信息:最新的点评
         latestRemark: `${host}/weapp/user/latestRemark`,
-        addRemark: `${host}/weapp/user/addRemark`,
+        addRemark: `${host}/weapp/remark/addRemark`,
 
         //store相关的信息
         storeUrl: `${host}/weapp/store`,
