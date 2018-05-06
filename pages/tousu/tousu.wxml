@@ -1,0 +1,21 @@
+<text selectable="false">针对本次就餐，我认为：\n</text>
+<form bindsubmit="bindFormSubmit">
+    <view wx:key="id" wx:for="{{tousuTemplates}}" wx:for-item="itemP">
+        <button id="{{itemP.id}}" bindtap='changeSelect' type="{{itemP.type}}">{{itemP.content}}</button>
+
+    </view>
+
+    
+    <textarea placeholder="这一刻的想法...（如您对意见或建议）" name="textarea" bindinput="inputExtraDesc" />
+
+    <div id='add_pict_div'>
+     <image bindtap="chooseimage" src='{{default_jia_paths}}' style="width: 300rpx; height: 300rpx"></image>    
+        <block wx:for="{{img_arr}}">    
+          <view class='logoinfo'>    
+            <image src='{{item}}' style="width: 300rpx; height: 300rpx"></image>    
+          </view>    
+        </block>
+    </div>
+    <button form-type="submit"> 提交 </button>
+</form>
+

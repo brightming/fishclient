@@ -415,5 +415,19 @@ Page({
       })
      
     }
+  },
+
+  clickTousu:function(){
+    var userInfo=wx.getStorageSync("userInfo");
+    if(!userInfo){
+      wx.showToast({
+        title: '请等登录完成再执行',
+        duration:3
+      })
+    }else{
+      wx.navigateTo({
+        url: '../tousu/tousu',
+      })
+    }
   }
 })

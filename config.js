@@ -19,13 +19,22 @@ var config = {
 
         //用户相关的信息:最新的点评
         latestRemark: `${host}/weapp/user/latestRemark`,
-        addRemark: `${host}/weapp/remark/addRemark`,
+        
 
         //store相关的信息
         storeUrl: `${host}/weapp/store`,
 
         //点评模板
         remarkTemplate: `${host}/weapp/RemarkTemplate`,
+        addRemark: `${host}/weapp/remark/addRemark`,
+
+
+        //投诉相关
+        //---获取默认的投诉模板---//
+        tousuTemplate: `${host}/weapp/tousu`,
+        //---增加投诉---//
+        addTousuNoPict: `${host}/weapp/tousu/AddTousuNoPict`,
+        addTousu: `${host}/weapp/tousu/AddTousu`,
 
         // 测试的信道服务地址
         tunnelUrl: `${host}/weapp/tunnel`,
